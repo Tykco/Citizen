@@ -13,7 +13,7 @@ public class ExampleApplication extends Application {
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
 	
 	public ExampleApplication(){
-	     singletons.add(new ProductResource());
+	     singletons.add(new StockResource());
 	     //singletons.add(new ProductResourceFull());
 	}
 	
