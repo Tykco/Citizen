@@ -12,5 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="C:/JavaEEJBossDev/Snippets/jackson-annotations-2.5.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
