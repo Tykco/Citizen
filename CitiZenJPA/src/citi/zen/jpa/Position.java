@@ -2,6 +2,7 @@ package citi.zen.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 /**
@@ -15,6 +16,7 @@ public class Position implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int positionId;
 	private int shares;
+	private BigDecimal sharesProfitLoss;
 	private Portfolio portfolio;
 	private Stock stock;
 
@@ -42,6 +44,16 @@ public class Position implements Serializable {
 	}
 
 
+	@Column(name="shares_profit_loss")
+	public BigDecimal getSharesProfitLoss() {
+		return this.sharesProfitLoss;
+	}
+
+	public void setSharesProfitLoss(BigDecimal sharesProfitLoss) {
+		this.sharesProfitLoss = sharesProfitLoss;
+	}
+
+
 	//bi-directional many-to-one association to Portfolio
 	@ManyToOne
 	@JoinColumn(name="portfolio_id")
@@ -54,7 +66,7 @@ public class Position implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Stock
+	//uni-directional many-to-one association to Stock
 	@ManyToOne
 	@JoinColumn(name="stock_id")
 	public Stock getStock() {

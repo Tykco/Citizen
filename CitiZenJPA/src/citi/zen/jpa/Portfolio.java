@@ -2,8 +2,8 @@ package citi.zen.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.BigInteger;
 import java.util.List;
 
 
@@ -19,8 +19,8 @@ public class Portfolio implements Serializable {
 	private int portfolioId;
 	private Timestamp created;
 	private Timestamp modified;
-	private BigInteger profitLoss;
-	private BigInteger startBalance;
+	private BigDecimal pfProfitLoss;
+	private BigDecimal startBalance;
 	private User user;
 	private List<Position> positions;
 
@@ -57,22 +57,22 @@ public class Portfolio implements Serializable {
 	}
 
 
-	@Column(name="profit_loss")
-	public BigInteger getProfitLoss() {
-		return this.profitLoss;
+	@Column(name="pf_profit_loss")
+	public BigDecimal getPfProfitLoss() {
+		return this.pfProfitLoss;
 	}
 
-	public void setProfitLoss(BigInteger profitLoss) {
-		this.profitLoss = profitLoss;
+	public void setPfProfitLoss(BigDecimal pfProfitLoss) {
+		this.pfProfitLoss = pfProfitLoss;
 	}
 
 
 	@Column(name="start_balance")
-	public BigInteger getStartBalance() {
+	public BigDecimal getStartBalance() {
 		return this.startBalance;
 	}
 
-	public void setStartBalance(BigInteger startBalance) {
+	public void setStartBalance(BigDecimal startBalance) {
 		this.startBalance = startBalance;
 	}
 

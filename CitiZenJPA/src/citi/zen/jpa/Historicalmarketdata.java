@@ -6,24 +6,24 @@ import java.math.BigInteger;
 
 
 /**
- * The persistent class for the historicalmarketdata_monthyear database table.
+ * The persistent class for the historicalmarketdata database table.
  * 
  */
 @Entity
-@Table(name="historicalmarketdata_monthyear")
-@NamedQuery(name="HistoricalmarketdataMonthyear.findAll", query="SELECT h FROM HistoricalmarketdataMonthyear h")
-public class HistoricalmarketdataMonthyear implements Serializable {
+@NamedQuery(name="Historicalmarketdata.findAll", query="SELECT h FROM Historicalmarketdata h")
+public class Historicalmarketdata implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private float close;
 	private String date;
+	private String epochTimestamp;
 	private float high;
 	private float low;
 	private float open;
-	private int stockId;
 	private BigInteger volume;
+	private Stock stock;
 
-	public HistoricalmarketdataMonthyear() {
+	public Historicalmarketdata() {
 	}
 
 
@@ -57,6 +57,16 @@ public class HistoricalmarketdataMonthyear implements Serializable {
 	}
 
 
+	@Column(name="epoch_timestamp")
+	public String getEpochTimestamp() {
+		return this.epochTimestamp;
+	}
+
+	public void setEpochTimestamp(String epochTimestamp) {
+		this.epochTimestamp = epochTimestamp;
+	}
+
+
 	public float getHigh() {
 		return this.high;
 	}
@@ -85,22 +95,24 @@ public class HistoricalmarketdataMonthyear implements Serializable {
 	}
 
 
-	@Column(name="stock_id")
-	public int getStockId() {
-		return this.stockId;
-	}
-
-	public void setStockId(int stockId) {
-		this.stockId = stockId;
-	}
-
-
 	public BigInteger getVolume() {
 		return this.volume;
 	}
 
 	public void setVolume(BigInteger volume) {
 		this.volume = volume;
+	}
+
+
+	//uni-directional many-to-one association to Stock
+	@ManyToOne
+	@JoinColumn(name="stock_id")
+	public Stock getStock() {
+		return this.stock;
+	}
+
+	public void setStock(Stock stock) {
+		this.stock = stock;
 	}
 
 }

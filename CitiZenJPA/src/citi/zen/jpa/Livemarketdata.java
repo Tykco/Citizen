@@ -20,8 +20,8 @@ public class Livemarketdata implements Serializable {
 	private Timestamp created;
 	private float open;
 	private float price;
-	private int stockId;
 	private BigInteger volume;
+	private Stock stock;
 
 	public Livemarketdata() {
 	}
@@ -83,22 +83,24 @@ public class Livemarketdata implements Serializable {
 	}
 
 
-	@Column(name="stock_id")
-	public int getStockId() {
-		return this.stockId;
-	}
-
-	public void setStockId(int stockId) {
-		this.stockId = stockId;
-	}
-
-
 	public BigInteger getVolume() {
 		return this.volume;
 	}
 
 	public void setVolume(BigInteger volume) {
 		this.volume = volume;
+	}
+
+
+	//uni-directional many-to-one association to Stock
+	@ManyToOne
+	@JoinColumn(name="stock_id")
+	public Stock getStock() {
+		return this.stock;
+	}
+
+	public void setStock(Stock stock) {
+		this.stock = stock;
 	}
 
 }

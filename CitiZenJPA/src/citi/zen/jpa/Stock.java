@@ -1,14 +1,7 @@
 package citi.zen.jpa;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 /**
@@ -26,7 +19,6 @@ public class Stock implements Serializable {
 	private String exchangeName;
 	private String ticker;
 	private String timezone;
-	//private List<Position> positions;
 
 	public Stock() {
 	}
@@ -34,7 +26,6 @@ public class Stock implements Serializable {
 
 	@Id
 	@Column(name="stock_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getStockId() {
 		return this.stockId;
 	}
@@ -89,25 +80,5 @@ public class Stock implements Serializable {
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
 	}
-
-
-	/*//bi-directional many-to-one association to Position
-	@OneToMany(mappedBy="stock")
-	public List<Position> getPositions() {
-		return this.positions;
-	}
-	public void setPositions(List<Position> positions) {
-		this.positions = positions;
-	}
-	public Position addPosition(Position position) {
-		getPositions().add(position);
-		position.setStock(this);
-		return position;
-	}
-	public Position removePosition(Position position) {
-		getPositions().remove(position);
-		position.setStock(null);
-		return position;
-	}*/
 
 }

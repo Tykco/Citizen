@@ -19,9 +19,9 @@ public class Trade implements Serializable {
 	private String buySell;
 	private float price;
 	private int quantity;
-	private int stockId;
 	private String strategy;
 	private Timestamp timePurchased;
+	private Stock stock;
 
 	public Trade() {
 	}
@@ -75,16 +75,6 @@ public class Trade implements Serializable {
 	}
 
 
-	@Column(name="stock_id")
-	public int getStockId() {
-		return this.stockId;
-	}
-
-	public void setStockId(int stockId) {
-		this.stockId = stockId;
-	}
-
-
 	public String getStrategy() {
 		return this.strategy;
 	}
@@ -101,6 +91,18 @@ public class Trade implements Serializable {
 
 	public void setTimePurchased(Timestamp timePurchased) {
 		this.timePurchased = timePurchased;
+	}
+
+
+	//uni-directional many-to-one association to Stock
+	@ManyToOne
+	@JoinColumn(name="stock_id")
+	public Stock getStock() {
+		return this.stock;
+	}
+
+	public void setStock(Stock stock) {
+		this.stock = stock;
 	}
 
 }

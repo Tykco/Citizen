@@ -14,6 +14,8 @@ public class ExampleApplication extends Application {
 	
 	public ExampleApplication(){
 	     singletons.add(new StockResource());
+	     singletons.add(new LiveDataResource());
+	     singletons.add(new HistoricalDataResource());
 	     //singletons.add(new ProductResourceFull());
 	}
 	

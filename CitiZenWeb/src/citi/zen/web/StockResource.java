@@ -17,8 +17,13 @@ public class StockResource {
 	
 	private CitiZenBeanLocal bean;
 	
+	private String beanName = "CitiZenBean";
+	private String beanInterfaceName = "CitiZenBeanLocal";
+
 	private String jndiName = "java:app/CitiZenEJB/"
-			+ "CitiZenBean!citi.zen.ejb.CitiZenBeanLocal";
+			+ beanName
+			+ "!citi.zen.ejb."
+			+beanInterfaceName;
 
 	
 	public StockResource() {
