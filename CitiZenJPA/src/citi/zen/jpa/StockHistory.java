@@ -1,4 +1,4 @@
-package citi.zen.jpa;
+/*package citi.zen.jpa;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -67,3 +67,4 @@ public class StockHistory implements Serializable{
 	
 	
 }
+*/

@@ -4,11 +4,10 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import citi.zen.jpa.StockHistory;
+import citi.zen.jpa.Stock;
 
 @Remote
 public interface CitiZenBeanRemote {
 
-	public void addStockHistory();
-	public List<StockHistory> getAllStocks();
+	public List<Stock> getAllStocks();
 }

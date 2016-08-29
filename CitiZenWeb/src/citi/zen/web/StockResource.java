@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import citi.zen.ejb.CitiZenBeanLocal;
-import citi.zen.jpa.StockHistory;
+import citi.zen.jpa.Stock;
 
 @Path("/stock")
 @SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ public class StockResource {
 	
 	@GET
 	@Produces("application/json")
-	public List<StockHistory> getAllStocks() {
+	public List<Stock> getAllStocks() {
 		if (bean==null) {
 			return null;
 		} else {
