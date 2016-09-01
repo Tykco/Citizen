@@ -1,5 +1,6 @@
 package com.citi.citizen_app.data.trader.EJB;
 
+import java.io.StringReader;
 import java.util.Properties;
 
 import javax.enterprise.context.Dependent;
@@ -16,6 +17,10 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.xml.sax.InputSource;
 
 import com.citi.citizen_app.data.trader.orderbroker.OrderConstants;
 
@@ -98,6 +103,13 @@ public class TradeReceiveBean implements MessageListener {
 				
 				msgText = ((TextMessage) msg).getText();
 				System.out.println("onMESSAGE MSGTEXT: "+msgText);
+				
+				msgText = msgText.substring(55);
+				
+			/*	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			    DocumentBuilder builder = factory.newDocumentBuilder();
+			    InputSource is = new InputSource(new StringReader(msgText));
+			    builder.parse(is).get*/
 				
 			} else {
 				System.out.println("Not an instance of Text Message");

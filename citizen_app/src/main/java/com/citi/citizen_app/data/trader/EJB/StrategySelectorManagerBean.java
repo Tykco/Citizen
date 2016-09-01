@@ -28,10 +28,10 @@ public class StrategySelectorManagerBean {
 	private String bbStrategy = "bb";
 	
 	//Called BY StratSelectorResource
-	public void handleUserStratParameters(float shortMa, float longMa, 
+	public void handleUserStrategyParameters(float shortMa, float longMa, 
 											int quantity, float threshold,
 											String strategy, String ticker, 
-											float bbma, float stdDiv) {
+											float bbma, float stdDiv, int portfolioId) {
 //		StringBuilder stratString = new StringBuilder();
 //		stratString.append(ticker).append(",")
 //					.append(longMa).append(",")

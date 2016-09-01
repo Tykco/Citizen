@@ -22,21 +22,22 @@ public class StrategySelectorResource {
 	//STARTS STRATEGY
 	@GET
 	@Produces("application/json")
-	@Path("/{ticker}/{strategy}/start")
-	public String getLiveDataByTicker(@PathParam("ticker") String ticker,
-										@PathParam("strategy") String strategy,
-										@QueryParam("longma") float longMa,
-										@QueryParam("shortma") float shortMa,
-										@QueryParam("quantity") int quantity,
-										@QueryParam("threshold") float threshold,
-										@QueryParam("stdDiv") float stdDiv,
-										@QueryParam("bbma") float bbma) {
-		if (bean==null) {
+	@Path("/{pfid}/{ticker}/{strategy}/start")
+	public String handleUserStrategyParameters(@PathParam("pfid") int pfid,
+												@PathParam("ticker") String ticker,
+												@PathParam("strategy") String strategy,
+												@QueryParam("longma") float longMa,
+												@QueryParam("shortma") float shortMa,
+												@QueryParam("quantity") int quantity,
+												@QueryParam("threshold") float threshold,
+												@QueryParam("stdDiv") float stdDiv,
+												@QueryParam("bbma") float bbma) {
+			if (bean==null) {
 			return null;
 		} else {
 			System.out.println("Passing user's ONE STOCK params into strat selector bean...");
-			bean.handleUserStratParameters(shortMa, longMa, quantity, 
-											threshold, strategy, ticker, bbma, stdDiv);
+			bean.handleUserStrategyParameters(shortMa, longMa, quantity, 
+											threshold, strategy, ticker, bbma, stdDiv, pfid);
 			return "<p>PASSING USER'S PARAMS FOR "+ ticker +" USING "+strategy +"!</p>";
 		}
 	}

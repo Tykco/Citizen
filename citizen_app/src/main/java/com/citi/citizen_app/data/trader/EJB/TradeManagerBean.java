@@ -12,7 +12,7 @@ import com.citi.citizen_app.data.repository.EJB.RepositoryTradeDataBean;
 import com.citi.citizen_app.model.Trade;
 
 @Stateless
-public class ApprovedTradeManagerBean {
+public class TradeManagerBean {
 
 	@Inject
 	private RepositoryPositionDataBean positionBean;
