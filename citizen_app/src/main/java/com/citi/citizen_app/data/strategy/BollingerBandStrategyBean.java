@@ -12,6 +12,8 @@ import javax.inject.Inject;
 
 import com.citi.citizen_app.data.repository.EJB.RepositoryLiveDataBean;
 import com.citi.citizen_app.data.repository.EJB.RepositoryStratFeedDataBean;
+import com.citi.citizen_app.data.trader.EJB.TradeManagerBean;
+import com.citi.citizen_app.data.trader.EJB.TradeSendBean;
 import com.citi.citizen_app.model.Livemarketdata;
 
 @Stateful
@@ -19,13 +21,16 @@ public class BollingerBandStrategyBean {
 
 	@Inject
 	private RepositoryLiveDataBean liveDataBean;
-	
+	@Inject
+	private TradeManagerBean tradeManagerBean;
 	@Inject
 	private RepositoryStratFeedDataBean repoStratFeedBean;
+	@Inject
+	private TradeSendBean tradeSendBean;
 
 	private int dataTimePeriod;
 	private float ma;
-	private int lastExecutedID, lastRecordedID, lastBandID, originalID;
+	private int lastExecutedID, lastRecordedID, lastBandID, originalID, portfolioId;
 	private int maxShares;
 	private float threshold;
 	private final String strategy = "BB";
@@ -94,31 +99,54 @@ public class BollingerBandStrategyBean {
 					if(upperBandList.get(lastBandID) < originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1))){
 						float sellPrice = originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1));
 						
-						System.out.println("\nBB EXECUTES SELL: @PRICE: " + originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1))
-						+" LOWER: "+ String.valueOf(lowerBandList.get(lastBandID)) 
-						+ " UPPER: " + String.valueOf(upperBandList.get(lastBandID)) 
-						+ " MIDDLE: " + String.valueOf(middleBandList.get(lastBandID))+"\n");
+						
 						
 						if(hasStocks) {
 							//TODO: Execute sell(maxShares, sellPrice);
+							System.out.println("\nBB EXECUTES SELL: @PRICE: " + originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1))
+							+" LOWER: "+ String.valueOf(lowerBandList.get(lastBandID)) 
+							+ " UPPER: " + String.valueOf(upperBandList.get(lastBandID)) 
+							+ " MIDDLE: " + String.valueOf(middleBandList.get(lastBandID))+"\n");
+							
+							tradeManagerBean.persistTradesPreApproval(portfolioId, stockName, "SELL", strategy, maxShares, sellPrice);
+							String sellPriceStr = Float.toString(sellPrice);
+							String maxSharesStr = ""+maxShares;
+							
+							try {
+								tradeSendBean.runSender("false", sellPriceStr, maxSharesStr, stockName);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							hasStocks = false;
 						}
 						
 					}
 					else if(lowerBandList.get(lastBandID) > originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1))){
 						//TO/DO: Execute buy
-						buyPrice = originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1));
-						System.out.println("\nBB EXECUTES BUY: "+" @PRICE: " + buyPrice
-						+ " LOWER: "+ String.valueOf(lowerBandList.get(lastBandID)) 
-						+ " UPPER: " + String.valueOf(upperBandList.get(lastBandID)) 
-						+ " MIDDLE: " + String.valueOf(middleBandList.get(lastBandID))+"\n");
+						float buyPrice = originalPriceList.get((int) (lastBandID+(ma/dataTimePeriod)-1));
+						
 						
 						if (!hasStocks){
+							System.out.println("\nBB EXECUTES BUY: "+" @PRICE: " + buyPrice
+									+ " LOWER: "+ String.valueOf(lowerBandList.get(lastBandID)) 
+									+ " UPPER: " + String.valueOf(upperBandList.get(lastBandID)) 
+									+ " MIDDLE: " + String.valueOf(middleBandList.get(lastBandID))+"\n");
+							
 							//TODO: Execute  buy(maxShares, buyPrice);
+							tradeManagerBean.persistTradesPreApproval(portfolioId, stockName, "BUY", strategy, maxShares, buyPrice);
+							
+							String buyPriceStr = Float.toString(buyPrice);
+							String maxSharesStr = ""+maxShares;
+							
+							try {
+								tradeSendBean.runSender("true", buyPriceStr, maxSharesStr, stockName);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							hasStocks = true;
 						}
-						
-						
 					}
 					lastBandID++;
 					System.out.println("LAST BAND ID: "+ lastBandID);
@@ -230,12 +258,12 @@ public class BollingerBandStrategyBean {
 		return this.buyPrice;
 	}
 
-	public void setParams(float ma, int maxShares, float threshold, float stdDiv, String ticker) {
+	public void setParams(int portfolioId, float ma, int maxShares, float threshold, float stdDiv, String ticker) {
 		this.ma = ma;
 		this.maxShares = maxShares;
 		this.threshold = threshold;
 		this.stockName = ticker;
-
+		this.portfolioId = portfolioId;
 		this.dataTimePeriod = 1; // Every 1 second one stock data
 		this.hasEnoughStocks = false;
 		this.lastRecordedID = 0;
@@ -243,7 +271,7 @@ public class BollingerBandStrategyBean {
 		this.lastBandID = 0;
 		this.hasStocks = false;
 
-		File file = new File("outputBB3.txt");
+		/*File file = new File("outputBB3.txt");
 		FileOutputStream fos;
 		try{
 			fos = new FileOutputStream(file);
@@ -251,7 +279,7 @@ public class BollingerBandStrategyBean {
 			System.setOut(ps);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }

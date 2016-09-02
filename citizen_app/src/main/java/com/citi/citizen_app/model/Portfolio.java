@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
 
 /**
@@ -22,8 +21,6 @@ public class Portfolio implements Serializable {
 	private BigDecimal pfProfitLoss;
 	private BigDecimal startBalance;
 	private User user;
-	private List<Position> positions;
-	private List<Trade> trades;
 
 	public Portfolio() {
 	}
@@ -81,7 +78,7 @@ public class Portfolio implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to User
+	//uni-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="user_id", nullable=false)
 	public User getUser() {
@@ -90,56 +87,6 @@ public class Portfolio implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-
-	//bi-directional many-to-one association to Position
-	@OneToMany(mappedBy="portfolio")
-	public List<Position> getPositions() {
-		return this.positions;
-	}
-
-	public void setPositions(List<Position> positions) {
-		this.positions = positions;
-	}
-
-	public Position addPosition(Position position) {
-		getPositions().add(position);
-		position.setPortfolio(this);
-
-		return position;
-	}
-
-	public Position removePosition(Position position) {
-		getPositions().remove(position);
-		position.setPortfolio(null);
-
-		return position;
-	}
-
-
-	//bi-directional many-to-one association to Trade
-	@OneToMany(mappedBy="portfolio")
-	public List<Trade> getTrades() {
-		return this.trades;
-	}
-
-	public void setTrades(List<Trade> trades) {
-		this.trades = trades;
-	}
-
-	public Trade addTrade(Trade trade) {
-		getTrades().add(trade);
-		trade.setPortfolio(this);
-
-		return trade;
-	}
-
-	public Trade removeTrade(Trade trade) {
-		getTrades().remove(trade);
-		trade.setPortfolio(null);
-
-		return trade;
 	}
 
 }

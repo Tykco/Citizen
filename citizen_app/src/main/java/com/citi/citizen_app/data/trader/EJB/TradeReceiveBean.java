@@ -1,6 +1,5 @@
 package com.citi.citizen_app.data.trader.EJB;
 
-import java.io.StringReader;
 import java.util.Properties;
 
 import javax.enterprise.context.Dependent;
@@ -17,10 +16,6 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.xml.sax.InputSource;
 
 import com.citi.citizen_app.data.trader.orderbroker.OrderConstants;
 
@@ -33,7 +28,6 @@ public class TradeReceiveBean implements MessageListener {
 	private QueueReceiver queueReceiver;
 	private boolean quit = false;
 
-	
 	public void runReceiver() throws Exception {
 
 		InitialContext ic = getInitialContext();

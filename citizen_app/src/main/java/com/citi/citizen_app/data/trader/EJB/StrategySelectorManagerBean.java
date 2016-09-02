@@ -21,7 +21,8 @@ public class StrategySelectorManagerBean {
 	private StratExecutionTimerServiceBean stratTmaTimerTaskBean;
 	@Inject
 	private StratExecutionTimerServiceBean stratBbTimerTaskBean;
-
+	@Inject
+	private PortfolioPositionManagerBean portfolioPositionManagerBean;
 	
 	
 	private String tmaStrategy = "tma";
@@ -39,24 +40,27 @@ public class StrategySelectorManagerBean {
 //					.append(quantity).append(",")
 //					.append(threshold);
 		
+		//Insert new positions and portfolio for this trader.
+		portfolioPositionManagerBean.insertPortfolioPositionFirst(portfolioId, ticker);
+		
 		if (strategy.equalsIgnoreCase(tmaStrategy) ) {
 			
-			System.out.println("INITIALIZING TMA STRAT BEAN..");
+			System.out.println("INITIALIZING TMA STRAT BEAN....");
 			
 			stratTmaTimerTaskBean.startTmaStrategy(shortMa, longMa, 
 												quantity, threshold,
-												strategy, ticker);
+												strategy, ticker, portfolioId);
 			
 			Timer timer = new Timer(true);
-			timer.scheduleAtFixedRate(stratTmaTimerTaskBean, 0, 5040);
+			timer.scheduleAtFixedRate(stratTmaTimerTaskBean, 0, 1040);
 			
 		} else if (strategy.equalsIgnoreCase(bbStrategy)) {
 			System.out.println("INITIALIZING BB STRAT BEAN...");
 			
 			stratBbTimerTaskBean.startBbStrategy(bbma, quantity, threshold,
-													stdDiv, ticker);
+													stdDiv, ticker, portfolioId);
 			Timer timer = new Timer(true);
-			timer.scheduleAtFixedRate(stratBbTimerTaskBean, 0, 4040);
+			timer.scheduleAtFixedRate(stratBbTimerTaskBean, 0, 1040);
 		}
 	}
 }

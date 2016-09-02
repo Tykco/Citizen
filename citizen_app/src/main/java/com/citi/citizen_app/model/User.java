@@ -3,7 +3,6 @@ package com.citi.citizen_app.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 
 /**
@@ -22,7 +21,6 @@ public class User implements Serializable {
 	private String lastName;
 	private Timestamp modified;
 	private String username;
-	private List<Portfolio> portfolios;
 
 	public User() {
 	}
@@ -97,31 +95,6 @@ public class User implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-
-	//bi-directional many-to-one association to Portfolio
-	@OneToMany(mappedBy="user")
-	public List<Portfolio> getPortfolios() {
-		return this.portfolios;
-	}
-
-	public void setPortfolios(List<Portfolio> portfolios) {
-		this.portfolios = portfolios;
-	}
-
-	public Portfolio addPortfolio(Portfolio portfolio) {
-		getPortfolios().add(portfolio);
-		portfolio.setUser(this);
-
-		return portfolio;
-	}
-
-	public Portfolio removePortfolio(Portfolio portfolio) {
-		getPortfolios().remove(portfolio);
-		portfolio.setUser(null);
-
-		return portfolio;
 	}
 
 }

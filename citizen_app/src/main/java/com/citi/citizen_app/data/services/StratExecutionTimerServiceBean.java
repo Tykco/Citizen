@@ -66,21 +66,21 @@ public class StratExecutionTimerServiceBean extends TimerTask {
 
 	public void startTmaStrategy(float shortMa, float longMa, 
 			int quantity, float threshold,
-			String strategy, String ticker) {
+			String strategy, String ticker, int portfolioId) {
 		this.ticker = ticker;
 		
 		
-		tmaStratBean.setParams(ticker, shortMa, longMa, quantity);
+		tmaStratBean.setParams(portfolioId, ticker, shortMa, longMa, quantity);
 		movingAvgHashMap.put(ticker, tmaStratBean);
 		riskHashMap.put(ticker, new RiskManagerBean(threshold));
 	}
 
 	public void startBbStrategy(float ma, int quantity, 
-			float threshold, float stdDiv, String tick) {
+			float threshold, float stdDiv, String tick, int portfolioId) {
 		bollinger= true;
 		ticker=tick;
 
-		bbStratBean.setParams(ma, quantity, threshold, stdDiv, ticker);
+		bbStratBean.setParams(portfolioId, ma, quantity, threshold, stdDiv, ticker);
 		bollingerHashMap.put(ticker, bbStratBean);
 		riskHashMap.put(ticker, new RiskManagerBean(threshold));
 	}

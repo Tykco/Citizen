@@ -1,0 +1,6 @@
+C:\Users\Lenovo\Desktop\CitiZen_TradingApp\Citizen_TradingAppTest\bin\Release\Citizen_TradingAppTest.dll
+C:\Users\Lenovo\Desktop\CitiZen_TradingApp\Citizen_TradingAppTest\bin\Release\Citizen_TradingAppTest.pdb
+C:\Users\Lenovo\Desktop\CitiZen_TradingApp\Citizen_TradingAppTest\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Lenovo\Desktop\CitiZen_TradingApp\Citizen_TradingAppTest\obj\Release\Citizen_TradingAppTest.csprojResolveAssemblyReference.cache
+C:\Users\Lenovo\Desktop\CitiZen_TradingApp\Citizen_TradingAppTest\obj\Release\Citizen_TradingAppTest.dll
+C:\Users\Lenovo\Desktop\CitiZen_TradingApp\Citizen_TradingAppTest\obj\Release\Citizen_TradingAppTest.pdb

@@ -3,17 +3,16 @@ package com.citi.citizen_app.data.strategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.jms.JMSException;
 
 import com.citi.citizen_app.data.repository.EJB.RepositoryLiveDataBean;
 import com.citi.citizen_app.data.repository.EJB.RepositoryStratFeedDataBean;
+import com.citi.citizen_app.data.trader.EJB.TradeManagerBean;
 import com.citi.citizen_app.data.trader.EJB.TradeSendBean;
 import com.citi.citizen_app.model.Livemarketdata;
 
@@ -26,6 +25,8 @@ public class TwoMovingAvgStrategyBean {
 	private RepositoryStratFeedDataBean repoStratFeedBean;
 	@Inject
 	private TradeSendBean tradeSendBean;
+	@Inject
+	private TradeManagerBean tradeManagerBean;
 
 	private int dataTimePeriod;
 	private float shortMA;
@@ -33,7 +34,7 @@ public class TwoMovingAvgStrategyBean {
 	private int quantityBoughtOrSold;
 	private int lastShortEMAExecutedID;
 	private int lastLongEMAExecutedID;
-	private int lastShortPlotID, lastLongPlotID, lastRecordedID;
+	private int lastShortPlotID, lastLongPlotID, lastRecordedID, portfolioId;
 
 	private float buyPrice, currentPrice;
 
@@ -254,9 +255,10 @@ public class TwoMovingAvgStrategyBean {
 				buyPrice = originalPriceList.get(lastLongEMAExecutedID);
 				shortMAisHigher = true;
 				
-				//TODO: Execute a BUY
+				
 				if (!hasStocks){
-					//TODO: Execute  buy(maxShares, buyPrice);
+					//TODO: Execute a BUY
+					tradeManagerBean.persistTradesPreApproval(portfolioId, stockName, "BUY", strategy, quantityBoughtOrSold, buyPrice);
 					
 					String buyPriceStr = Float.toString(buyPrice);
 					String maxShares = ""+quantityBoughtOrSold;
@@ -280,14 +282,16 @@ public class TwoMovingAvgStrategyBean {
 			if(shortMAisHigher == true){
 				tradeDecision.add(sell);
 
-				System.out.println("EXECUTES SELL: LongMA: "+String.valueOf(longMAPriceList.get(lastLongPlotID)) 
-										+"shortMA: "+ String.valueOf(shortMAPriceList.get(lastShortPlotID))
-										+"sellPrice: "+ String.valueOf(originalPriceList.get(lastLongEMAExecutedID)));
+				
 
 				shortMAisHigher = false;
 				if(hasStocks) {
-					//TODO: Execute sell(maxShares, sellPrice);
+					//TODO: Execute SELL;
+					System.out.println("EXECUTES SELL: LongMA: "+String.valueOf(longMAPriceList.get(lastLongPlotID)) 
+					+" shortMA: "+ String.valueOf(shortMAPriceList.get(lastShortPlotID))
+					+" sellPrice: "+ String.valueOf(originalPriceList.get(lastLongEMAExecutedID)));
 					
+					tradeManagerBean.persistTradesPreApproval(portfolioId, stockName, "SELL", strategy, quantityBoughtOrSold, buyPrice);
 					String sellPriceStr = String.valueOf(originalPriceList.get(lastLongEMAExecutedID));
 					String maxShares = ""+quantityBoughtOrSold;
 
@@ -366,7 +370,8 @@ public class TwoMovingAvgStrategyBean {
 		this.stop = stop;
 	}
 	
-	public void setParams(String ticker, float shortMa, float longMa, int quantityBoughtOrSold){
+	public void setParams(int portfolioId, String ticker, float shortMa, float longMa, int quantityBoughtOrSold){
+		this.portfolioId = portfolioId;
 		this.stockName=ticker;
 		this.shortMA = shortMa;
 		this.longMA = longMa;
@@ -385,7 +390,7 @@ public class TwoMovingAvgStrategyBean {
 		this.stop = false;
 		this.pause = false;
 		
-		File file = new File("outputTMA.txt");
+		/*File file = new File("outputTMA.txt");
 		FileOutputStream fos;
 		try{
 			fos = new FileOutputStream(file);
@@ -393,6 +398,6 @@ public class TwoMovingAvgStrategyBean {
 			System.setOut(ps);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

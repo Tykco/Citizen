@@ -56,7 +56,7 @@ public class Position implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Portfolio
+	//uni-directional many-to-one association to Portfolio
 	@ManyToOne
 	@JoinColumn(name="portfolio_id", nullable=false)
 	public Portfolio getPortfolio() {

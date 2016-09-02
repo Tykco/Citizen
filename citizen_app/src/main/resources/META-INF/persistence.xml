@@ -26,6 +26,14 @@
       <!-- The datasource is deployed as WEB-INF/citizen_app-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/citizen_app-ds.xml -->
       <jta-data-source>java:jboss/datasources/equityschemaDS</jta-data-source>
+      <class>com.citi.citizen_app.model.Historicalmarketdata</class>
+      <class>com.citi.citizen_app.model.Livemarketdata</class>
+      <class>com.citi.citizen_app.model.Portfolio</class>
+      <class>com.citi.citizen_app.model.Position</class>
+      <class>com.citi.citizen_app.model.Stock</class>
+      <class>com.citi.citizen_app.model.Stratfeed</class>
+      <class>com.citi.citizen_app.model.Trade</class>
+      <class>com.citi.citizen_app.model.User</class>
       <properties>
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="none" />

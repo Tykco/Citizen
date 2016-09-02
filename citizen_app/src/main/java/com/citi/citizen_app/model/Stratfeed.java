@@ -70,7 +70,7 @@ public class Stratfeed implements Serializable {
 	}
 
 
-	@Column(name="middle_band", nullable=false)
+	@Column(name="middle_band")
 	public float getMiddleBand() {
 		return this.middleBand;
 	}
@@ -90,7 +90,7 @@ public class Stratfeed implements Serializable {
 	}
 
 
-	@Column(nullable=true, length=255)
+	@Column(nullable=false, length=255)
 	public String getStrategy() {
 		return this.strategy;
 	}

@@ -1,5 +1,6 @@
 package com.citi.citizen_app.rest;
 
+import java.math.BigDecimal;
 import java.util.Timer;
 
 import javax.enterprise.context.RequestScoped;
@@ -8,9 +9,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import com.citi.citizen_app.data.repository.EJB.RepositoryPortfolioDataBean;
+import com.citi.citizen_app.data.services.EventHandlerBean;
 import com.citi.citizen_app.data.services.YahooTimerServiceBean;
-import com.citi.citizen_app.data.trader.EJB.TradeReceiveBean;
-import com.citi.citizen_app.data.trader.EJB.TradeSendBean;
 
 @Path("/init")
 @SuppressWarnings("unchecked")
@@ -20,7 +21,7 @@ public class InitSystemResource {
 	@Inject
 	private YahooTimerServiceBean timerServiceBean;
 	@Inject
-	private TradeReceiveBean tradeReceiveBean;
+	private EventHandlerBean eventBean;
 	
 	/**
 	 * METHOD to start the live market data feed for list of tickers.
@@ -35,6 +36,7 @@ public class InitSystemResource {
 			return null;
 		} else {
 	        //running timer task as daemon thread
+			
 			Timer timer = new Timer(true);
 			timerServiceBean.setTickerList(tickers);
 			timer.scheduleAtFixedRate(timerServiceBean, 0, 1040);
@@ -42,7 +44,7 @@ public class InitSystemResource {
 			printToBrowser(tickers);
 			//Inits OrderBroker Sender and Receiver.
 			System.out.println("Initializing OrderBroker Receiver.....");
-			initOrderBrokerReceiver();
+			eventBean.initOrderBrokerReceiver();
 			System.out.println("POST INIT ORDERBROKER............");
 			return printToBrowser(tickers);
 		}
@@ -58,13 +60,5 @@ public class InitSystemResource {
         return browserOutput;
 	}
 	
-	private void initOrderBrokerReceiver() {
-		try {
-			System.out.println("RUNNING RUNRECEIVER METHOD");
-			tradeReceiveBean.runReceiver();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 }
